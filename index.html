@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wyjazdy 27WE</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:20px;
+}
+
+h2{
+    text-align:center;
+    color:#8B0000;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#8B0000;
+    color:white;
+    padding:10px;
+}
+
+td{
+    border:1px solid #ccc;
+    padding:6px;
+    text-align:center;
+}
+
+input{
+    width:95%;
+    border:1px solid #ccc;
+    padding:4px;
+    text-align:center;
+    box-sizing:border-box;
+}
+
+button{
+    margin-top:15px;
+    padding:10px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<h2>Wyjazdy jednostek 27WE od 10.06.2026 r.</h2>
+
+<table>
+<thead>
+<tr>
+<th>Lp.</th>
+<th>Pojazd</th>
+<th>Nr operacyjny</th>
+<th>Data wyjazdu</th>
+<th>Numer linii</th>
+<th>Obieg</th>
+</tr>
+</thead>
+
+<tbody id="lista"></tbody>
+
+</table>
+
+<button onclick="wyczysc()">🗑 Wyczyść wszystkie wpisy</button>
+
+<script>
+
+const pojazdy=[
+["27WE-001","401"],
+["27WE-002","402"],
+["27WE-003","403"],
+["27WE-004","404"],
+["27WE-005","405"],
+["27WE-006","406"],
+["27WE-007","407"],
+["27WE-008","408"],
+["27WE-009","409"],
+["27WE-010","410"],
+["27WE-011","411"],
+["27WE-012","412"],
+["27WE-013","413"]
+];
+
+const lista=document.getElementById("lista");
+
+pojazdy.forEach((p,i)=>{
+
+lista.innerHTML+=`
+<tr>
+<td>${i+1}</td>
+<td>${p[0]}</td>
+<td>${p[1]}</td>
+<td><input type="date" id="d${i}"></td>
+<td><input type="text" id="l${i}" placeholder="np. S1"></td>
+<td><input type="text" id="o${i}" placeholder="np. 101"></td>
+</tr>
+`;
+
+});
+
+for(let i=0;i<pojazdy.length;i++){
+
+["d","l","o"].forEach(prefix=>{
+
+const pole=document.getElementById(prefix+i);
+
+pole.value=localStorage.getItem(prefix+i)||"";
+
+pole.oninput=function(){
+localStorage.setItem(prefix+i,this.value);
+}
+
+});
+
+}
+
+function wyczysc(){
+
+if(confirm("Usunąć wszystkie zapisane dane?")){
+
+localStorage.clear();
+location.reload();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
